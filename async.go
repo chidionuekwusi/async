@@ -60,6 +60,7 @@ func Waterfall(stack Tasks, firstArgs ...interface{}) ([]interface{}, error) {
 		args []reflect.Value
 		f    = &funcs{}
 	)
+	fmt.Println("here 1")
 	// Checks if the Tasks passed are valid functions.
 	f.Stack, err = stack.GetFuncs()
 
@@ -76,10 +77,12 @@ func Waterfall(stack Tasks, firstArgs ...interface{}) ([]interface{}, error) {
 }
 
 func Parallel(stack taskier) (Results, error) {
+	fmt.Println("here 2")
 	return execConcurrentStack(stack, true)
 }
 
 func Concurrent(stack taskier) (Results, error) {
+	fmt.Println("here 3")
 	return execConcurrentStack(stack, false)
 }
 
@@ -95,5 +98,6 @@ func execConcurrentStack(stack taskier, parallel bool) (Results, error) {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("here 4")
 	return f.ExecConcurrent(parallel)
 }
