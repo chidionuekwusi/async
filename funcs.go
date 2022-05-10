@@ -190,16 +190,15 @@ func execRoutineParallel(f reflect.Value, c chan execResult, sem chan int, k str
 
 // Executes the task and sends error to the `c` channel
 func execRoutine(f reflect.Value, c chan execResult, key string) {
-	var (
-		exr = execResult{}      // Result
-		res = f.Call(emptyArgs) // Calls the function
-	)
-
+	var exr = execResult{}
 	defer func() {
 		if r := recover(); r != nil {
 			exr.err = fmt.Errorf("%v, I didn't panic haha", r)
 		}
 	}()
+	var ( // Result
+		res = f.Call(emptyArgs) // Calls the function
+	)
 
 	// Get type of the function to be executed
 	fnt := f.Type()
