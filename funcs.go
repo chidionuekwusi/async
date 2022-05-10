@@ -194,6 +194,7 @@ func execRoutine(f reflect.Value, c chan execResult, key string) {
 	defer func() {
 		if r := recover(); r != nil {
 			exr.err = Errors{fmt.Errorf("%v, I didn't panic haha", r)}
+			c <- exr
 		}
 	}()
 	var ( // Result
