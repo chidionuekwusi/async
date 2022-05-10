@@ -1,6 +1,7 @@
 package async
 
 import (
+	"fmt"
 	"reflect"
 	"runtime"
 )
@@ -193,6 +194,12 @@ func execRoutine(f reflect.Value, c chan execResult, key string) {
 		exr = execResult{}      // Result
 		res = f.Call(emptyArgs) // Calls the function
 	)
+
+	defer func() {
+		if r := recover(); r != nil {
+			exr.err = fmt.Errorf("%v, I didn't panic haha", r)
+		}
+	}()
 
 	// Get type of the function to be executed
 	fnt := f.Type()
